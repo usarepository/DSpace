@@ -359,11 +359,30 @@
 
     <xsl:template name="itemSummaryView-DIM-file-section">
         <xsl:choose>
-            <xsl:when test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file">
+            <xsl:when test="//mets:fileSec/mets:fileGrp[@USE='CONTENT' or @USE='ORIGINAL' or @USE='LICENSE']/mets:file or dim:field[@element='relation' and @qualifier='uri']">
                 <div class="item-page-field-wrapper table word-break">
                     <h5>
                         <i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-viewOpen</i18n:text>
                     </h5>
+
+                    <xsl:if test="dim:field[@element='relation' and @qualifier='uri']">
+                        <a>
+                            <xsl:attribute name="href">
+                                <xsl:copy-of select="dim:field[@element='relation' and @qualifier='uri']/node()"/>
+                            </xsl:attribute>
+                            <i aria-hidden="true">
+                                <xsl:attribute name="class">
+                                    <xsl:text>glyphicon glyphicon-file</xsl:text>
+                                </xsl:attribute>
+                            </i>
+                            <xsl:text>Publisher's version</xsl:text>
+                            <xsl:if test="dim:field[@element='accessRights']!=''">
+                                <xsl:text> (</xsl:text>
+                                <xsl:value-of select="dim:field[@element='accessRights']/text()"/>
+                                <xsl:text>)</xsl:text>
+                            </xsl:if>
+                        </a>
+                    </xsl:if>
 
                     <xsl:variable name="label-1">
                             <xsl:choose>
