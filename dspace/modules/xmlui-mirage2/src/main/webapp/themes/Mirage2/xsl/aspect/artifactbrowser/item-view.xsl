@@ -376,7 +376,7 @@
                                 </xsl:attribute>
                             </i>
                             <xsl:text>Publisher's version</xsl:text>
-                            <xsl:if test="dim:field[@element='accessRights']">
+                            <xsl:if test="dim:field[@element='accessRights']!=''">
                                 <xsl:text> (</xsl:text>
                                 <xsl:value-of select="dim:field[@element='accessRights']/text()"/>
                                 <xsl:text>)</xsl:text>
