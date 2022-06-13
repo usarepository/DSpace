@@ -217,7 +217,16 @@ it, please enter the types and the actual numbers or codes.</hint>
              <repeatable>false</repeatable>
              <label>Related link</label>
              <input-type>onebox</input-type>
-             <hint> Enter the url of the full text (if available and open access) from the publisher or external sites. </hint>
+             <hint> Enter the url of the full text (if available and open access) from the publisher. DO NOT put links from Researchgate/Academia or other links not from the Publisher! </hint>
+         </field>
+
+       <field>
+         <dc-schema>dcterms</dc-schema>
+         <dc-element>accessRights</dc-element>
+         <label>Rights Access</label>
+         <input-type value-pairs-name="access_rights">dropdown</input-type>
+         <hint>The level of access that this item is allowed. Select the correct rights value from the Rights Access drop box in the metadata entry form.</hint>
+         <required>Please select the appropriate access rights whether this item's full-text is 'Open access, requestable, restricted' or not. Select 'Open access' if the full-text is 'Open access' OR if you intend to make the uploaded full-text open access.</required>
          </field>
 
        <field>
@@ -667,9 +676,24 @@ it, please enter the types and the actual numbers or codes.</hint>
        <displayed-value>(Other)</displayed-value>
        <stored-value>other</stored-value>
      </pair>
+   </value-pairs>
+
+   <value-pairs value-pairs-name="access_rights" dc-term="accessRights">
      <pair>
-       <displayed-value>N/A</displayed-value>
+       <displayed-value></displayed-value>
        <stored-value></stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Restricted access</displayed-value>
+       <stored-value>Restricted access</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Limited public access</displayed-value>
+       <stored-value>Limited public access</stored-value>
+     </pair>
+     <pair>
+       <displayed-value>Open access</displayed-value>
+       <stored-value>Open access</stored-value>
      </pair>
    </value-pairs>
 
