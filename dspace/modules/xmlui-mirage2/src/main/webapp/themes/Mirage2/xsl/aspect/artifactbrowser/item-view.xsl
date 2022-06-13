@@ -82,6 +82,25 @@
             <xsl:when test="./mets:fileSec/mets:fileGrp[@USE='ORE']">
                 <xsl:apply-templates select="./mets:fileSec/mets:fileGrp[@USE='ORE']" mode="itemDetailView-DIM" />
             </xsl:when>
+            <xsl:when test="//dim:field[@element='relation' and @qualifier='uri']">
+                <h2><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h2>
+                <a>
+                    <xsl:attribute name="href">
+                        <xsl:copy-of select="//dim:field[@element='relation' and @qualifier='uri']/node()"/>
+                    </xsl:attribute>
+                    <i aria-hidden="true">
+                        <xsl:attribute name="class">
+                            <xsl:text>glyphicon glyphicon-file</xsl:text>
+                        </xsl:attribute>
+                    </i>
+                    <xsl:text>Publisher's version</xsl:text>
+                    <xsl:if test="dim:field[@element='accessRights']!=''">
+                        <xsl:text> (</xsl:text>
+                        <xsl:value-of select="dim:field[@element='accessRights']/text()"/>
+                        <xsl:text>)</xsl:text>
+                    </xsl:if>
+                </a>
+            </xsl:when>
             <xsl:otherwise>
                 <h2><i18n:text>xmlui.dri2xhtml.METS-1.0.item-files-head</i18n:text></h2>
                 <table class="ds-table file-list">
