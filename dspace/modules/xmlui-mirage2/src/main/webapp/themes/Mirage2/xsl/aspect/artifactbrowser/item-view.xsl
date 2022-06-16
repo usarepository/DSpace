@@ -137,6 +137,10 @@
                     </div>
                     <xsl:call-template name="itemSummaryView-DIM-date"/>
                     <xsl:call-template name="itemSummaryView-DIM-authors"/>
+                    <xsl:call-template name="itemSummaryView-DIM-MeSH"/>
+                    <xsl:call-template name="itemSummaryView-DIM-LCSH"/>
+                    <xsl:call-template name="itemSummaryView-DIM-GBIF"/>
+                    <xsl:call-template name="itemSummaryView-DIM-TGN"/>
                     <xsl:if test="$ds_item_view_toggle_url != ''">
                         <xsl:call-template name="itemSummaryView-show-full"/>
                     </xsl:if>
@@ -262,6 +266,17 @@
                         <div class="spacer">&#160;</div>
                     </xsl:if>
                 </div>
+                <xsl:if test="dim:field[@element='subject' and not(@qualifier)]">
+                    <div class="spacer">&#160;</div>
+                    <span><b>Keywords: </b>
+                        <xsl:for-each select="dim:field[@element='subject' and not(@qualifier)]">
+                            <xsl:copy-of select="node()"/>
+                            <xsl:if test="count(following-sibling::dim:field[@element='subject' and not(@qualifier)]) != 0">
+                                <xsl:text>; </xsl:text>
+                            </xsl:if>
+                        </xsl:for-each>
+                    </span>
+                </xsl:if>
             </div>
         </xsl:if>
     </xsl:template>
@@ -299,7 +314,7 @@
             <xsl:if test="@authority">
                 <xsl:attribute name="class"><xsl:text>ds-dc_contributor_author-authority</xsl:text></xsl:attribute>
             </xsl:if>
-            <a>
+            <a class="label label-default">
                 <xsl:attribute name="href">
                     <xsl:choose>
                         <xsl:when test="@qualifier='author'">
@@ -871,6 +886,163 @@
                     </xsl:if>
                 </div>
             </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-MeSH">
+        <xsl:if test="dim:field[@element='subject'][@qualifier='mesh']">
+            <div class="simple-item-view-authors item-page-field-wrapper table">
+            <h5>MeSH term</h5>
+            <xsl:for-each select="dim:field[@element='subject'][@qualifier='mesh']">
+                <a class="label label-default">
+                    <xsl:attribute name="href">
+                        <xsl:value-of
+                                select="concat($context-path,'/discover?filtertype=')"/>
+                        <xsl:text>subject&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
+                        <xsl:copy-of select="."/>
+                    </xsl:attribute>
+                    <xsl:value-of select="text()"/>
+                </a>
+                <xsl:call-template name="itemSummaryView-DIM-MeSH-entry"/>
+                <xsl:if test="count(following-sibling::dim:field[@element='subject'][@qualifier='mesh']) != 0">
+                    <br/>
+                </xsl:if>
+            </xsl:for-each>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-MeSH-entry">
+        <xsl:if test="@authority">
+            <xsl:text>&#160;</xsl:text>
+            <a>
+                <xsl:attribute name="href">
+                    <xsl:value-of select="@authority"/>
+                </xsl:attribute>
+                <xsl:attribute name="target">
+                    <xsl:text>_blank</xsl:text>
+                </xsl:attribute>
+                <img src="{$theme-path}images/MeSH-logo.jpg" alt="MeSH" class="vocabulary" title="MeSH"/>
+            </a>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-LCSH">
+        <xsl:if test="dim:field[@element='subject'][@qualifier='lcsh']">
+            <div class="simple-item-view-authors item-page-field-wrapper table">
+                <h5>Subject</h5>
+                <xsl:for-each select="dim:field[@element='subject'][@qualifier='lcsh']">
+                    <a class="label label-default">
+                        <xsl:attribute name="href">
+                            <xsl:value-of
+                                    select="concat($context-path,'/discover?filtertype=')"/>
+                            <xsl:text>subject&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
+                            <xsl:copy-of select="."/>
+                        </xsl:attribute>
+                        <xsl:value-of select="text()"/>
+                    </a>
+                    <xsl:call-template name="itemSummaryView-DIM-LCSH-entry"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='subject'][@qualifier='lcsh']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-LCSH-entry">
+        <xsl:if test="starts-with(@authority,'fst')">
+            <xsl:text>&#160;</xsl:text>
+            <a>
+                <xsl:attribute name="href">
+                    <xsl:text>http://id.worldcat.org/fast/</xsl:text>
+                    <xsl:value-of select="@authority"/>
+                </xsl:attribute>
+                <xsl:attribute name="target">
+                    <xsl:text>_blank</xsl:text>
+                </xsl:attribute>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAJNQTFRFAAAAIHm1IHm1IHm1IHm1IHm1IHm1IHm1IHm1IHm1IHm1IHm1IHm1Ppo8Ppo8Ppo8OpZLNpFdPpo8Ppo8Ppo8Ppo8Ppo8IHm1Ppo8e5Iz9YIgg5Ey9YIg9YIg9YIgPpo89YIg9YIg9YIgIHm10oE59YIg9YIg9YIg14E15oQiPpo89YIgoI0t9YIg9YIg9YIg9YIgFSvS3AAAADF0Uk5TABCA3//PYK/vIJ8wQHDf//+vn8+Aj2CP7zBA/+//UECPIJ+/v6/fgN+/EGDvzxAwv/6gdEsAAACoSURBVHicPU5RFoIwDMvGQBBhykARQZkKqIh4/9O5bmo+2jQvTQuAcU8I4Qf4gvnCYcF+c8gjRDwUSytwEcaWxKFYUfdcS1Ip1xtiwqOaSZUXqVQk0OZWJk7OjbAzLC3cRVUCvm+I3FcVrBMIKPRQN019BE5GMBZWNa3W50YjKemzi3ftyN8PSHMbFdxswHDP1MOFtyPV7ll8Z+jpBYy1xh/z9J762dIPwB8J12aqWq4AAAAASUVORK5CYII="
+                     alt="OCLC - FAST (Faceted Application of Subject Terminology)" class="vocabulary"
+                     title="OCLC - FAST (Faceted Application of Subject Terminology)"/>
+            </a>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-GBIF">
+        <xsl:if test="dim:field[@element='subject'][@qualifier='scientificname']">
+            <div class="simple-item-view-authors item-page-field-wrapper table">
+                <h5>Taxonomic term</h5>
+                <xsl:for-each select="dim:field[@element='subject'][@qualifier='scientificname']">
+                    <a class="label label-default">
+                        <xsl:attribute name="href">
+                            <xsl:value-of
+                                    select="concat($context-path,'/discover?filtertype=')"/>
+                            <xsl:text>subject&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
+                            <xsl:copy-of select="."/>
+                        </xsl:attribute>
+                        <xsl:value-of select="text()"/>
+                    </a>
+                    <xsl:call-template name="itemSummaryView-DIM-GBIF-entry"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='subject'][@qualifier='scientificname']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-GBIF-entry">
+        <xsl:if test="@authority">
+            <xsl:text>&#160;</xsl:text>
+            <a>
+                <xsl:attribute name="href">
+                    <xsl:text>https://www.gbif.org/species/</xsl:text>
+                    <xsl:value-of select="substring-after(@authority,'gbif:')"/>
+                </xsl:attribute>
+                <xsl:attribute name="target">
+                    <xsl:text>_blank</xsl:text>
+                </xsl:attribute>
+                <img src="{$theme-path}images/gbif-16x16.png" alt="GBIF" class="vocabulary" title="Global Biodiversity Information Facility"/>
+            </a>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-TGN">
+        <xsl:if test="dim:field[@element='coverage'][@qualifier='spatial']">
+            <div class="simple-item-view-authors item-page-field-wrapper table">
+                <h5>Geographic name</h5>
+                <xsl:for-each select="dim:field[@element='coverage'][@qualifier='spatial']">
+                    <a class="label label-default">
+                        <xsl:attribute name="href">
+                            <xsl:value-of
+                                    select="concat($context-path,'/discover?filtertype=')"/>
+                            <xsl:text>subject&amp;filter_relational_operator=equals&amp;filter=</xsl:text>
+                            <xsl:copy-of select="."/>
+                        </xsl:attribute>
+                        <xsl:value-of select="text()"/>
+                    </a>
+                    <xsl:call-template name="itemSummaryView-DIM-TGN-entry"/>
+                    <xsl:if test="count(following-sibling::dim:field[@element='coverage'][@qualifier='spatial']) != 0">
+                        <br/>
+                    </xsl:if>
+                </xsl:for-each>
+            </div>
+        </xsl:if>
+    </xsl:template>
+
+    <xsl:template name="itemSummaryView-DIM-TGN-entry">
+        <xsl:if test="@authority">
+            <xsl:text>&#160;</xsl:text>
+            <a>
+                <xsl:attribute name="href">
+                    <xsl:text>http://vocab.getty.edu/page/tgn/</xsl:text>
+                    <xsl:value-of select="substring-after(@authority,'tgn/')"/>
+                </xsl:attribute>
+                <xsl:attribute name="target">
+                    <xsl:text>_blank</xsl:text>
+                </xsl:attribute>
+                <img src="{$theme-path}images/TGN-logo.gif" alt="TGN" class="vocabulary" title="Getty Thesaurus of Geographic Names (TGN)®"/>
+            </a>
         </xsl:if>
     </xsl:template>
 
