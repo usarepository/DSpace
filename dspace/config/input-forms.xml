@@ -156,6 +156,18 @@ it, please enter the types and the actual numbers or codes.</hint>
      <page number="2">
        <field>
          <dc-schema>dc</dc-schema>
+         <dc-element>contributor</dc-element>
+         <dc-qualifier>editor</dc-qualifier>
+         <repeatable>true</repeatable>
+         <label>Editor</label>
+         <type-bind>Book,Book chapter,Conference paper,Conference publication</type-bind>
+         <input-type>name</input-type>
+         <hint>Enter the names of the editors of this item.</hint>
+         <required></required>
+       </field>
+
+       <field>
+         <dc-schema>dc</dc-schema>
          <dc-element>citation</dc-element>
          <dc-qualifier>journaltitle</dc-qualifier>
          <repeatable>false</repeatable>
