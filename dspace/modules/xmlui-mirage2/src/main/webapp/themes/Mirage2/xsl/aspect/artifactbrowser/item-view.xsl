@@ -150,6 +150,9 @@
                     <xsl:if test='confman:getProperty("plumx.enabled") and $identifier_doi'>
                         <xsl:call-template name='impact-plumx'/>
                     </xsl:if>
+                    <xsl:if test="$ds_item_view_toggle_url != ''">
+                        <xsl:call-template name="itemSummaryView-show-full"/>
+                    </xsl:if>
                 </div>
                 <div class="col-sm-8">
                     <xsl:call-template name="itemSummaryView-DIM-abstract"/>
@@ -253,7 +256,7 @@
     <xsl:template name="itemSummaryView-DIM-abstract">
         <xsl:if test="dim:field[@element='description' and @qualifier='abstract']">
             <div class="simple-item-view-description item-page-field-wrapper table">
-                <h5 class="visible-xs"><i18n:text>xmlui.dri2xhtml.METS-1.0.item-abstract</i18n:text></h5>
+                <h5><i18n:text>xmlui.dri2xhtml.METS-1.0.item-abstract</i18n:text></h5>
                 <div>
                     <xsl:for-each select="dim:field[@element='description' and @qualifier='abstract']">
                         <xsl:choose>
@@ -276,14 +279,13 @@
                 </div>
                 <xsl:if test="dim:field[@element='subject' and not(@qualifier)]">
                     <div class="spacer">&#160;</div>
-                    <span><b>Keywords: </b>
+                    <h5>Keywords</h5>
                         <xsl:for-each select="dim:field[@element='subject' and not(@qualifier)]">
                             <xsl:copy-of select="node()"/>
                             <xsl:if test="count(following-sibling::dim:field[@element='subject' and not(@qualifier)]) != 0">
                                 <xsl:text>; </xsl:text>
                             </xsl:if>
                         </xsl:for-each>
-                    </span>
                 </xsl:if>
             </div>
         </xsl:if>
@@ -1074,7 +1076,7 @@
     <xsl:template name='impact-altmetric'>
         <div id='impact-altmetric' class="table">
             <!-- Altmetric.com -->
-            <script type="text/javascript" src="{concat($scheme, 'd1bxh8uas1mnw7.cloudfront.net/assets/embed.js')}">&#xFEFF;
+            <script type="text/javascript" src="{concat('//', 'd1bxh8uas1mnw7.cloudfront.net/assets/embed.js')}">&#xFEFF;
             </script>
             <div id='altmetric'
                  class='altmetric-embed'>
@@ -1127,10 +1129,10 @@
             <xsl:variable name="plumx-script-url">
                 <xsl:choose>
                     <xsl:when test="boolean($plumx_type)">
-                        <xsl:value-of select="concat($scheme, 'cdn.plu.mx/widget-', $plumx_type, '.js')"/>
+                        <xsl:value-of select="concat('//', 'cdn.plu.mx/widget-', $plumx_type, '.js')"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="concat($scheme, 'cdn.plu.mx/widget-popup.js')"/>
+                        <xsl:value-of select="concat('//', 'cdn.plu.mx/widget-popup.js')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:variable>
