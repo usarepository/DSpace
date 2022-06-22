@@ -305,6 +305,21 @@
                         </div>
                     </xsl:when>
                     </xsl:choose>
+                    <xsl:if test="dri:list[@n=(concat($handle, ':dc.identifier.doi'))]/dri:item">
+                        <span class="__dimensions_badge_embed__" data-hide-zero-citations="true" data-style="small_rectangle" style="display: inline-block">
+                            <xsl:attribute name="data-doi">
+                                <xsl:value-of select="dri:list[@n=(concat($handle, ':dc.identifier.doi'))]/dri:item"/>
+                            </xsl:attribute>
+                        </span>
+                        <xsl:text> </xsl:text>
+                        <span class="altmetric-embed" data-hide-no-mentions="true" data-badge-type="2"  data-badge-popover="right" style="display: inline-block">
+                            <xsl:attribute name="data-doi">
+                                <xsl:value-of select="dri:list[@n=(concat($handle, ':dc.identifier.doi'))]/dri:item"/>
+                            </xsl:attribute>
+                        </span>
+                        <script src="https://badge.dimensions.ai/badge.js" charset="utf-8" async="1">&#160;</script>
+                        <script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'>&#160;</script>
+                    </xsl:if>
                 </div>
             </div>
         </div>
